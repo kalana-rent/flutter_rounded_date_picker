@@ -548,7 +548,6 @@ class _CupertinoDatePickerDateTimeState
       onSelectedItemChanged: (int index) {
         if (widget.use24hFormat) {
           selectedHour = index;
-          widget.onDateTimeChanged(_getDateTime());
         } else {
           selectedHour = index % 12;
 
@@ -565,8 +564,6 @@ class _CupertinoDatePickerDateTimeState
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOut,
             );
-          } else {
-            widget.onDateTimeChanged(_getDateTime());
           }
         }
 
@@ -603,7 +600,6 @@ class _CupertinoDatePickerDateTimeState
       squeeze: _kSqueeze,
       onSelectedItemChanged: (int index) {
         selectedMinute = index * widget.minuteInterval;
-        widget.onDateTimeChanged(_getDateTime());
       },
       children: List<Widget>.generate(60 ~/ widget.minuteInterval, (int index) {
         final int minute = index * widget.minuteInterval;
@@ -634,7 +630,6 @@ class _CupertinoDatePickerDateTimeState
       squeeze: _kSqueeze,
       onSelectedItemChanged: (int index) {
         selectedAmPm = index;
-        widget.onDateTimeChanged(_getDateTime());
       },
       children: List<Widget>.generate(2, (int index) {
         return itemPositioningBuilder(
@@ -742,12 +737,46 @@ class _CupertinoDatePickerDateTimeState
         data: const MediaQueryData(textScaleFactor: 1.0),
         child: DefaultTextStyle.merge(
           style: _kDefaultPickerTextStyle,
-          child: CustomMultiChildLayout(
-            delegate: _DatePickerLayoutDelegate(
-              columnWidths: columnWidths,
-              textDirectionFactor: textDirectionFactor,
-            ),
-            children: pickers,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CupertinoButton(
+                    onPressed: () {
+                      if (Navigator.of(context).canPop()) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                  CupertinoButton(
+                    onPressed: () {
+                      widget.onDateTimeChanged(_getDateTime());
+                      if (Navigator.of(context).canPop()) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: Text('Done'),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: CustomMultiChildLayout(
+                  delegate: _DatePickerLayoutDelegate(
+                    columnWidths: columnWidths,
+                    textDirectionFactor: textDirectionFactor,
+                  ),
+                  children: pickers,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -826,10 +855,6 @@ class _CupertinoDatePickerDateState
       squeeze: _kSqueeze,
       onSelectedItemChanged: (int index) {
         selectedDay = index + 1;
-        if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
-            selectedDay)
-          widget.onDateTimeChanged(
-              DateTime(selectedYear, selectedMonth, selectedDay));
       },
       children: List<Widget>.generate(31, (int index) {
         TextStyle textStyle = _themeTextStyle(context);
@@ -862,10 +887,6 @@ class _CupertinoDatePickerDateState
       squeeze: _kSqueeze,
       onSelectedItemChanged: (int index) {
         selectedMonth = index + 1;
-        if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
-            selectedDay)
-          widget.onDateTimeChanged(
-              DateTime(selectedYear, selectedMonth, selectedDay));
       },
       children: List<Widget>.generate(12, (int index) {
         return itemPositioningBuilder(
@@ -890,10 +911,6 @@ class _CupertinoDatePickerDateState
       backgroundColor: widget.background,
       onSelectedItemChanged: (int index) {
         selectedYear = index;
-        if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
-            selectedDay)
-          widget.onDateTimeChanged(
-              DateTime(selectedYear, selectedMonth, selectedDay));
       },
       itemBuilder: (BuildContext context, int index) {
         if (index < widget.minimumYear) return null;
@@ -1065,7 +1082,6 @@ class _CupertinoDatePickerDateState
 //
 // If the maximum width given to the picker is smaller than 330.0, the picker's
 // layout will be broken.
-
 
 /// A countdown timer picker in iOS style.
 ///
@@ -1322,7 +1338,8 @@ class _CupertinoTimerPickerState
                 padding: const EdgeInsets.symmetric(horizontal: 2.0),
                 child: Text(localizations.timerPickerMinute(minute),
                     style: TextStyle(
-                        fontFamily: widget.fontFamily, color: widget.textColor)),
+                        fontFamily: widget.fontFamily,
+                        color: widget.textColor)),
               ),
             ),
           );
@@ -1341,7 +1358,8 @@ class _CupertinoTimerPickerState
                 padding: const EdgeInsets.symmetric(horizontal: 2.0),
                 child: Text(localizations.timerPickerMinute(minute),
                     style: TextStyle(
-                        fontFamily: widget.fontFamily, color: widget.textColor)),
+                        fontFamily: widget.fontFamily,
+                        color: widget.textColor)),
               ),
             ),
           );
