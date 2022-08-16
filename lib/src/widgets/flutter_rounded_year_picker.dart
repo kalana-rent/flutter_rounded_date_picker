@@ -26,11 +26,11 @@ class FlutterRoundedYearPicker extends StatefulWidget {
   /// Rarely used directly. Instead, typically used as part of the dialog shown
   /// by [showDatePicker].
   FlutterRoundedYearPicker(
-      {Key key,
-      @required this.selectedDate,
-      @required this.onChanged,
-      @required this.firstDate,
-      @required this.lastDate,
+      {Key? key,
+      required this.selectedDate,
+      required this.onChanged,
+      required this.firstDate,
+      required this.lastDate,
       this.era = EraMode.CHRIST_YEAR,
       this.fontFamily,
       this.dragStartBehavior = DragStartBehavior.start,
@@ -58,21 +58,22 @@ class FlutterRoundedYearPicker extends StatefulWidget {
   final DragStartBehavior dragStartBehavior;
 
   /// Era
-  final EraMode era;
+  final EraMode? era;
 
   /// Font
-  final String fontFamily;
+  final String? fontFamily;
 
   /// style
-  final MaterialRoundedYearPickerStyle style;
+  final MaterialRoundedYearPickerStyle? style;
 
   @override
-  _FlutterRoundedYearPickerState createState() => _FlutterRoundedYearPickerState();
+  _FlutterRoundedYearPickerState createState() =>
+      _FlutterRoundedYearPickerState();
 }
 
 class _FlutterRoundedYearPickerState extends State<FlutterRoundedYearPicker> {
-  double _itemExtent;
-  ScrollController scrollController;
+  double? _itemExtent;
+  ScrollController? scrollController;
 
   @override
   void initState() {
@@ -80,7 +81,8 @@ class _FlutterRoundedYearPickerState extends State<FlutterRoundedYearPicker> {
     _itemExtent = widget.style?.heightYearRow ?? 50;
     scrollController = ScrollController(
       // Move the initial scroll position to the currently selected date's year.
-      initialScrollOffset: (widget.selectedDate.year - widget.firstDate.year) * _itemExtent,
+      initialScrollOffset:
+          (widget.selectedDate.year - widget.firstDate.year) * _itemExtent!,
     );
   }
 
@@ -88,7 +90,7 @@ class _FlutterRoundedYearPickerState extends State<FlutterRoundedYearPicker> {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
     final ThemeData themeData = Theme.of(context);
-    final TextStyle style = themeData.textTheme.body1.copyWith(
+    final TextStyle style = themeData.textTheme.bodyText2!.copyWith(
       fontFamily: widget.fontFamily,
     );
     return ListView.builder(
@@ -101,7 +103,7 @@ class _FlutterRoundedYearPickerState extends State<FlutterRoundedYearPicker> {
         final bool isSelected = year == widget.selectedDate.year;
         final TextStyle itemStyle = isSelected
             ? (widget.style?.textStyleYearSelected ??
-                themeData.textTheme.headline.copyWith(
+                themeData.textTheme.headline5!.copyWith(
                   color: themeData.accentColor,
                   fontFamily: widget.fontFamily,
                 ))

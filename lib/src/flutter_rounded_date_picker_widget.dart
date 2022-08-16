@@ -95,33 +95,33 @@ typedef SelectableDayPredicate = bool Function(DateTime day);
 ///    a year.
 ///
 
-Future<DateTime> showRoundedDatePicker(
-    {@required BuildContext context,
-    DateTime initialDate,
-    DateTime firstDate,
-    DateTime lastDate,
-    SelectableDayPredicate selectableDayPredicate,
+Future<DateTime?> showRoundedDatePicker(
+    {required BuildContext context,
+    DateTime? initialDate,
+    DateTime? firstDate,
+    DateTime? lastDate,
+    SelectableDayPredicate? selectableDayPredicate,
     DatePickerMode initialDatePickerMode = DatePickerMode.day,
-    Locale locale,
-    TextDirection textDirection,
-    ThemeData theme,
+    Locale? locale,
+    TextDirection? textDirection,
+    ThemeData? theme,
     double borderRadius = 16,
     EraMode era = EraMode.CHRIST_YEAR,
-    ImageProvider imageHeader,
+    ImageProvider? imageHeader,
     String description = "",
-    String fontFamily,
+    String? fontFamily,
     bool barrierDismissible = false,
     Color background = Colors.transparent,
-    String textNegativeButton,
-    String textPositiveButton,
-    String textActionButton,
-    VoidCallback onTapActionButton,
-    MaterialRoundedDatePickerStyle styleDatePicker,
-    MaterialRoundedYearPickerStyle styleYearPicker,
-    List<String> customWeekDays,
-    BuilderDayOfDatePicker builderDay,
-    List<DateTime> listDateDisabled,
-    OnTapDay onTapDay}) async {
+    String? textNegativeButton,
+    String? textPositiveButton,
+    String? textActionButton,
+    VoidCallback? onTapActionButton,
+    MaterialRoundedDatePickerStyle? styleDatePicker,
+    MaterialRoundedYearPickerStyle? styleYearPicker,
+    List<String>? customWeekDays,
+    BuilderDayOfDatePicker? builderDay,
+    List<DateTime>? listDateDisabled,
+    OnTapDay? onTapDay}) async {
   initialDate ??= DateTime.now();
   firstDate ??= DateTime(initialDate.year - 1);
   lastDate ??= DateTime(initialDate.year + 1);
@@ -214,6 +214,6 @@ Future<DateTime> showRoundedDatePicker(
   return await showDialog<DateTime>(
     context: context,
     barrierDismissible: barrierDismissible,
-    builder: (_) => Theme(data: theme, child: child),
+    builder: (_) => Theme(data: theme!, child: child),
   );
 }

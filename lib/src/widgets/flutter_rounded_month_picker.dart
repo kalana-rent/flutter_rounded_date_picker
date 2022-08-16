@@ -31,11 +31,11 @@ class FlutterRoundedMonthPicker extends StatefulWidget {
   /// Rarely used directly. Instead, typically used as part of the dialog shown
   /// by [showDatePicker].
   FlutterRoundedMonthPicker(
-      {Key key,
-      @required this.selectedDate,
-      @required this.onChanged,
-      @required this.firstDate,
-      @required this.lastDate,
+      {Key? key,
+      required this.selectedDate,
+      required this.onChanged,
+      required this.firstDate,
+      required this.lastDate,
       this.selectableDayPredicate,
       this.dragStartBehavior = DragStartBehavior.start,
       this.era,
@@ -68,30 +68,30 @@ class FlutterRoundedMonthPicker extends StatefulWidget {
   final DateTime lastDate;
 
   /// Optional user supplied predicate function to customize selectable days.
-  final SelectableDayPredicate selectableDayPredicate;
+  final SelectableDayPredicate? selectableDayPredicate;
 
   /// {@macro flutter.widgets.scrollable.dragStartBehavior}
   final DragStartBehavior dragStartBehavior;
 
   /// Optional era year.
-  final EraMode era;
-  final Locale locale;
+  final EraMode? era;
+  final Locale? locale;
 
   /// Font
-  final String fontFamily;
+  final String? fontFamily;
 
   /// Style
-  final MaterialRoundedDatePickerStyle style;
+  final MaterialRoundedDatePickerStyle? style;
 
-  final double borderRadius;
+  final double? borderRadius;
 
   /// Custom Weekday.
-  final List<String> customWeekDays;
+  final List<String>? customWeekDays;
 
-  final BuilderDayOfDatePicker builderDay;
+  final BuilderDayOfDatePicker? builderDay;
 
-  final List<DateTime> listDateDisabled;
-  final OnTapDay onTapDay;
+  final List<DateTime>? listDateDisabled;
+  final OnTapDay? onTapDay;
 
   @override
   _FlutterRoundedMonthPickerState createState() => _FlutterRoundedMonthPickerState();
@@ -115,7 +115,7 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
       duration: const Duration(milliseconds: 250),
       vsync: this,
     );
-    _chevronOpacityAnimation = _chevronOpacityController.drive(
+    _chevronOpacityAnimation = _chevronOpacityController!.drive(
       _chevronOpacityTween,
     );
   }
@@ -130,8 +130,8 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
     }
   }
 
-  MaterialLocalizations localizations;
-  TextDirection textDirection;
+  late MaterialLocalizations localizations;
+  late TextDirection textDirection;
 
   @override
   void didChangeDependencies() {
@@ -140,12 +140,12 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
     textDirection = Directionality.of(context);
   }
 
-  DateTime _todayDate;
-  DateTime _currentDisplayedMonthDate;
-  Timer _timer;
-  PageController _dayPickerController;
-  AnimationController _chevronOpacityController;
-  Animation<double> _chevronOpacityAnimation;
+  late DateTime _todayDate;
+  late DateTime _currentDisplayedMonthDate;
+  Timer? _timer;
+  PageController? _dayPickerController;
+  AnimationController? _chevronOpacityController;
+  late Animation<double> _chevronOpacityAnimation;
 
   void _updateCurrentDate() {
     _todayDate = DateTime.now();
@@ -201,7 +201,7 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
         localizations.formatMonthYear(_nextMonthDate),
         textDirection,
       );
-      _dayPickerController.nextPage(
+      _dayPickerController!.nextPage(
         duration: _kMonthScrollDuration,
         curve: Curves.ease,
       );
@@ -214,7 +214,7 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
         localizations.formatMonthYear(_previousMonthDate),
         textDirection,
       );
-      _dayPickerController.previousPage(
+      _dayPickerController!.previousPage(
         duration: _kMonthScrollDuration,
         curve: Curves.ease,
       );
@@ -235,8 +235,8 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
     );
   }
 
-  DateTime _previousMonthDate;
-  DateTime _nextMonthDate;
+  late DateTime _previousMonthDate;
+  late DateTime _nextMonthDate;
 
   void _handleMonthPageChanged(int monthPage) {
     setState(() {
@@ -259,7 +259,7 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
       decoration: BoxDecoration(
           color: widget.style?.backgroundPicker,
           borderRadius: orientation == Orientation.landscape
-              ? BorderRadius.only(topRight: Radius.circular(widget.borderRadius))
+              ? BorderRadius.only(topRight: Radius.circular(widget.borderRadius!))
               : null),
       // The month picker just adds month navigation to the day picker, so make
       // it the same height as the DayPicker
@@ -270,12 +270,12 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
             sortKey: _MonthPickerSortKey.calendar,
             child: NotificationListener<ScrollStartNotification>(
               onNotification: (_) {
-                _chevronOpacityController.forward();
+                _chevronOpacityController!.forward();
                 return false;
               },
               child: NotificationListener<ScrollEndNotification>(
                 onNotification: (_) {
-                  _chevronOpacityController.reverse();
+                  _chevronOpacityController!.reverse();
                   return false;
                 },
                 child: PageView.builder(
