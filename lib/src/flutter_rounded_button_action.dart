@@ -6,7 +6,8 @@ class FlutterRoundedButtonAction extends StatelessWidget {
   final String? textActionButton;
   final VoidCallback? onTapButtonNegative; // Default is "Cancel" button.
   final VoidCallback? onTapButtonPositive; // Default is "OK" button.
-  final VoidCallback? onTapButtonAction; // Default is "Action" button which will be on the left.
+  final VoidCallback?
+      onTapButtonAction; // Default is "Action" button which will be on the left.
   final TextStyle? textStyleButtonAction;
   final TextStyle? textStyleButtonPositive;
   final TextStyle? textStyleButtonNegative;
@@ -34,13 +35,13 @@ class FlutterRoundedButtonAction extends StatelessWidget {
 
   List<Widget?> _buildActionsButton(bool isActionButton) {
     final Widget? leftButton = isActionButton
-        ? FlatButton(
+        ? TextButton(
             child: Text(textActionButton!, style: textStyleButtonAction),
             onPressed: onTapButtonAction,
           )
         : null;
 
-    final Widget negativeButton = FlatButton(
+    final Widget negativeButton = TextButton(
       child: Text(
         textButtonNegative ?? localizations!.cancelButtonLabel,
         style: textStyleButtonNegative,
@@ -48,7 +49,7 @@ class FlutterRoundedButtonAction extends StatelessWidget {
       onPressed: onTapButtonNegative,
     );
 
-    final Widget positiveButton = FlatButton(
+    final Widget positiveButton = TextButton(
       child: Text(
         textButtonPositive ?? localizations!.okButtonLabel,
         style: textStyleButtonPositive,
@@ -73,10 +74,13 @@ class FlutterRoundedButtonAction extends StatelessWidget {
       padding: paddingActionBar,
       decoration: BoxDecoration(
           color: background,
-          borderRadius:
-              orientation == Orientation.landscape ? BorderRadius.only(bottomRight: Radius.circular(borderRadius!)) : BorderRadius.vertical(bottom: Radius.circular(borderRadius!))),
+          borderRadius: orientation == Orientation.landscape
+              ? BorderRadius.only(bottomRight: Radius.circular(borderRadius!))
+              : BorderRadius.vertical(bottom: Radius.circular(borderRadius!))),
       child: ButtonBar(
-        alignment: textActionButton != null ? MainAxisAlignment.spaceBetween : MainAxisAlignment.end,
+        alignment: textActionButton != null
+            ? MainAxisAlignment.spaceBetween
+            : MainAxisAlignment.end,
         children: _buildActionsButton(textActionButton != null) as List<Widget>,
       ),
     );

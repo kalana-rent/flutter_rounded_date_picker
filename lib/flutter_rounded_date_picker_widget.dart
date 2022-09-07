@@ -1140,14 +1140,14 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
       data: ButtonBarThemeData(),
       child: ButtonBar(
         children: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(
               localizations.cancelButtonLabel,
               style: TextStyle(fontFamily: widget.fontFamily),
             ),
             onPressed: _handleCancel,
           ),
-          FlatButton(
+          TextButton(
             child: Text(
               localizations.okButtonLabel,
               style: TextStyle(fontFamily: widget.fontFamily),
